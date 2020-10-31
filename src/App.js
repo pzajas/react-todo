@@ -6,15 +6,15 @@ const App = () => {
     const [input, setInput] = useState('')
     const [index, setIndex] = useState([])
 
-    const [color, setColor] = useState({ color: 'green' })
+    const [isActive, setActive] = useState()
+
+    let id = Date.now()
 
     const onSubmitHandler = (event) => {
         event.preventDefault()
 
-        const id = Date.now()
-
         if (input.length > 0)
-            setIndex([...index, { input, id }])
+            setIndex([...index, { input, id, isCompleted: false }])
 
         setInput('')
     }
@@ -23,8 +23,27 @@ const App = () => {
         setInput(event.target.value)
     }
 
+    const onClickHandler = (id) => (e) => {
+        const indexUpdated = index.map(item => item.isCompleted === false && item.id === id ? { ...item, isCompleted: true } : { ...item })
+
+        indexUpdated.sort(function (a, b) { return a.isCompleted - b.isCompleted })
+
+        setIndex(indexUpdated)
+
+        e.stopPropagation()
+    }
+
+    const onCompleteHandler = () => {
+
+        const newArray = index.filter(item => item.isCompleted === Boolean(false))
+
+        console.log(newArray)
+    }
+
     const onDeleteHandler = (id) => () => {
+
         let newIndex = index.filter(item => item.id !== id)
+
         setIndex(newIndex)
     }
 
@@ -34,10 +53,12 @@ const App = () => {
                 <p>MY REACT TO DO LIST</p>
                 <label>Activity : </label>
                 <input
+                    className="input"
                     type="text"
                     value={input}
                     placeholder="Type what you want to add"
-                    onChange={onChangeHandler}>
+                    onChange={onChangeHandler}
+                >
                 </input>
                 <input type="submit"></input>
             </form>
@@ -45,11 +66,13 @@ const App = () => {
                 <List
                     items={index}
                     delete={onDeleteHandler}
+                    clicked={onClickHandler}
+
+                    complete={onCompleteHandler}
                 />
             </ul>
         </div>
     )
 }
-export default App
 
-// {index.map((item) => <li key={item.id} onClick={onDeleteHandler(item.id)}>{item.input}</li>)}
+export default App
