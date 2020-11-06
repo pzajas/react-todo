@@ -1,69 +1,61 @@
-import React, { useState } from 'react'
-import { RiFunctionFill } from 'react-icons/ri'
-import Todo from './Todo'
-import TodoForm from './TodoForm'
+import React, { useState, useEffect } from "react";
+import Todo from "./Todo";
+import TodoForm from "./TodoForm";
 
 const TodoList = () => {
+  const ACTIVE = "active";
+  const COMPLETED = "completed";
+  const ALL = "all";
 
-    const [todos, setTodos] = useState([])
+  const [allTodos, setAllTodos] = useState([]);
+  const [filter, setFilter] = useState(ALL);
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
-    const [main, setMain] = useState([])
+  useEffect(() => {
+    if (filter === ALL) setFilteredTodos(allTodos);
+    else if (filter === ACTIVE)
+      setFilteredTodos(allTodos.filter((item) => !item.isComplete));
+    else if (filter === COMPLETED)
+      setFilteredTodos(allTodos.filter((item) => item.isComplete));
+  }, [allTodos, filter]);
 
-    const handleAdd = todo => {
-        if (!todo.text || /^\s*$/.test(todo.text)) {
-            return
-        }
-        const newTodos = [todo, ...todos]
-        setTodos(newTodos)
-
+  const handleAdd = (todo) => {
+    if (!todo.text || /^\s*$/.test(todo.text)) {
+      return;
     }
 
-    const handleComplete = id => {
-        let updatedTodos = todos.map(todo => {
-            if (todo.id === id) {
-                todo.isComplete = !todo.isComplete
-            }
-            return todo
-        })
-        setTodos(updatedTodos)
-    }
+    setAllTodos([todo, ...allTodos]);
+  };
 
-    const handleActive = () => {
+  const handleComplete = (todoId) => {
+    let updatedTodos = allTodos.map((todo) =>
+      todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo
+    );
 
-        const copy = [...todos].filter(item => item.isComplete === false)
+    setAllTodos(updatedTodos);
+  };
 
-        const xxx = copy.splice({ isComplete: false })
+  const handleDelete = (todoId) =>
+    setAllTodos(...allTodos.filter((item) => item.id !== todoId));
 
-        setMain(xxx)
+  const handleFilterButtonClick = (filterType) => () => {
+    setFilter(filterType);
+  };
 
-        console.log(main)
-        // console.log(copy, 'aaa')
-        //console.log(xxx, 'zzz')
-        console.log(todos)
-    }
+  return (
+    <div>
+      <h4>MY REACT TODO LIST</h4>
+      <TodoForm onSubmit={handleAdd} />
+      <button onClick={handleFilterButtonClick(ACTIVE)}>Active</button>
+      <button onClick={handleFilterButtonClick(COMPLETED)}>Completed</button>
+      <button onClick={handleFilterButtonClick(ALL)}>All</button>
+      <Todo
+        todos={filteredTodos}
+        handleComplete={handleComplete}
+        handleDelete={handleDelete}
+      />
+    </div>
+  );
+};
 
-    const handleDelete = id => {
-        const todoDeleted = [...todos].filter(item => item.id !== id)
-
-        setTodos(todoDeleted)
-    }
-
-    return (
-        <div>
-            <h4>MY REACT TODO LIST</h4>
-            <TodoForm
-                onSubmit={handleAdd} />
-            <button
-                onClick={handleActive}>Active</button>
-            <Todo
-                todos={todos}
-
-                handleComplete={handleComplete}
-                handleDelete={handleDelete}
-            />
-
-        </div>
-    )
-}
-
-export default TodoList
+export default TodoList;
