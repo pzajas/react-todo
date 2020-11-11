@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
-import TodoForm from "../User Interface/Forms/TodoForm";
-import SearchForm from "../User Interface/Forms/SearchForm";
-
-import TodoButton from '../User Interface/Buttons/TodoButtonFocus'
+import TodoButton from "../User Interface/Buttons/TodoButtonFocus";
 import TodoButtonSearch from "../User Interface/Buttons/TodoButtonSearch";
 import HandleForm from "../User Interface/Forms/HandleForm";
 
@@ -15,12 +12,9 @@ const TodoList = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [filter, setFilter] = useState(ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
-
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
-
-  const [search, setSearch] = useState(false)
-  const [status, setStatus] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [search, setSearch] = useState(false);
 
   useEffect(() => {
     if (filter === ALL) setFilteredTodos(allTodos);
@@ -29,6 +23,11 @@ const TodoList = () => {
     else if (filter === COMPLETED)
       setFilteredTodos(allTodos.filter((item) => item.isComplete));
   }, [allTodos, filter]);
+
+  useEffect(() => {
+    const results = allTodos.filter((item) => item.text.includes(searchTerm));
+    setSearchResults(results);
+  }, [searchTerm, allTodos]);
 
   const handleAdd = (todo) => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
@@ -51,73 +50,49 @@ const TodoList = () => {
 
   const handleFilterButtonClick = (filterType) => () => {
     setFilter(filterType);
-    setStatus(!status)
-
-  }
+  };
 
   const handleButtonSearch = () => {
-    setSearch(!search)
-    console.log(searchResults)
-  }
+    setSearch(!search);
+    console.log(searchResults);
+  };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  React.useEffect(() => {
-    const results = allTodos.filter(item =>
-      item.text.includes(searchTerm)
-    );
-    setSearchResults(results);
-  }, [searchTerm, allTodos]);
-
 
   return (
     <div>
       <h4>MY REACT TODO LIST</h4>
-
-
-      <TodoButtonSearch
-        handle={handleButtonSearch}
-        search={search}
-      />
+      <TodoButtonSearch handle={handleButtonSearch} search={search} />
       <HandleForm
         search={search}
         onSubmit={handleAdd}
-
         value={searchTerm}
         onChange={handleChange}
         searchResults={searchResults}
       />
       <TodoButton
         name="active"
-        status={status}
         filter={filter}
         clicked={handleFilterButtonClick(ACTIVE)}
       />
       <TodoButton
         name="completed"
-        status={status}
         filter={filter}
-
         clicked={handleFilterButtonClick(COMPLETED)}
       />
       <TodoButton
         name="all"
-        status={status}
         filter={filter}
-
         clicked={handleFilterButtonClick(ALL)}
       />
       <Todo
         todos={filteredTodos}
         handleComplete={handleComplete}
         handleDelete={handleDelete}
-
         search={search}
-        searchTerm={searchTerm}
-        handleChange={handleChange}
         searchResults={searchResults}
-
         filter={filter}
         ALL={ALL}
         COMPLETED={COMPLETED}
