@@ -11,3 +11,8 @@ code {
 .todo-complete {
   text-decoration: line-through;
 }
+
+.active:focus {
+  color: white;
+  background-color: lightskyblue;
+}
