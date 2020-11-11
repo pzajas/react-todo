@@ -16,8 +16,8 @@ const TodoList = () => {
   const [filter, setFilter] = useState(ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
 
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const [search, setSearch] = useState(false)
   const [status, setStatus] = useState(true)
