@@ -1,19 +1,13 @@
-import React from 'react'
-import TodoForm from '../Forms/TodoForm'
+import React from "react";
 
-const TodoButtonSearch = ({ props, search, handle }) => {
+const TodoButtonSearch = ({ search, handle }) => {
+  const nameChanger = search === false ? "Add Item" : "Search";
 
-    const nameChanger = search === false ? "Add Item" : "Search"
+  return (
+    <button className={nameChanger} onClick={handle}>
+      {nameChanger}
+    </button>
+  );
+};
 
-    return (
-        <div>
-            <button
-                className={nameChanger}
-                onClick={handle}>{nameChanger}
-            </button>
-
-        </div>
-    )
-}
-
-export default TodoButtonSearch
+export default TodoButtonSearch;

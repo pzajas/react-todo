@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
-import TodoForm from "../User Interface/Forms/TodoForm";
-import SearchForm from "../User Interface/Forms/SearchForm";
-
-import TodoButton from '../User Interface/Buttons/TodoButtonFocus'
+import TodoButton from "../User Interface/Buttons/TodoButtonFocus";
 import TodoButtonSearch from "../User Interface/Buttons/TodoButtonSearch";
 import HandleForm from "../User Interface/Forms/HandleForm";
 
@@ -15,20 +12,19 @@ const TodoList = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [filter, setFilter] = useState(ALL);
   const [filteredTodos, setFilteredTodos] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  const [search, setSearch] = useState(false)
-  const [status, setStatus] = useState(true)
+  const [search, setSearch] = useState(false);
 
   useEffect(() => {
-    if (filter === ALL) setFilteredTodos(allTodos);
+    if (filter === ALL)
+      setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)))
     else if (filter === ACTIVE)
-      setFilteredTodos(allTodos.filter((item) => !item.isComplete));
+      setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)))
     else if (filter === COMPLETED)
-      setFilteredTodos(allTodos.filter((item) => item.isComplete));
-  }, [allTodos, filter]);
+      setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)))
+
+  }, [allTodos, filter, searchTerm])
 
   const handleAdd = (todo) => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
@@ -41,87 +37,68 @@ const TodoList = () => {
   const handleComplete = (todoId) => {
     let updatedTodos = allTodos.map((todo) =>
       todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo
-    );
 
+    );
     setAllTodos(updatedTodos);
   };
 
-  const handleDelete = (todoId) =>
-    setAllTodos(...allTodos.filter((item) => item.id !== todoId));
+  const handleDelete = (todoId) => {
+    setAllTodos(allTodos.filter((item) => item.id !== todoId));
+  }
+
 
   const handleFilterButtonClick = (filterType) => () => {
-    setFilter(filterType);
-    setStatus(!status)
 
-  }
+    setFilter(filterType)
+  };
 
   const handleButtonSearch = () => {
-    setSearch(!search)
-    console.log(searchResults)
-  }
+    setSearch(!search);
+  };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  React.useEffect(() => {
-    const results = allTodos.filter(item =>
-      item.text.includes(searchTerm)
-    );
-    setSearchResults(results);
-  }, [searchTerm, allTodos]);
 
 
   return (
     <div>
       <h4>MY REACT TODO LIST</h4>
-
-
-      <TodoButtonSearch
-        handle={handleButtonSearch}
-        search={search}
-      />
+      <TodoButtonSearch handle={handleButtonSearch} search={search} />
       <HandleForm
         search={search}
         onSubmit={handleAdd}
-
         value={searchTerm}
         onChange={handleChange}
         searchResults={searchResults}
       />
       <TodoButton
         name="active"
-        status={status}
         filter={filter}
         clicked={handleFilterButtonClick(ACTIVE)}
       />
       <TodoButton
         name="completed"
-        status={status}
         filter={filter}
-
         clicked={handleFilterButtonClick(COMPLETED)}
       />
       <TodoButton
         name="all"
-        status={status}
         filter={filter}
-
         clicked={handleFilterButtonClick(ALL)}
       />
       <Todo
         todos={filteredTodos}
         handleComplete={handleComplete}
         handleDelete={handleDelete}
-
         search={search}
-        searchTerm={searchTerm}
-        handleChange={handleChange}
         searchResults={searchResults}
-
+        searchTerm={searchTerm}
         filter={filter}
         ALL={ALL}
         COMPLETED={COMPLETED}
         ACTIVE={ACTIVE}
+        filteredTodos={filteredTodos}
       />
     </div>
   );

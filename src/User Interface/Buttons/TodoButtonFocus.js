@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-import TodoList from '../../Components/TodoList'
+import React from "react";
 
-const TodoButtonFocus = ({ filter, name, clicked }) => {
+const TodoButtonFocus = ({ filter, name, clicked, onMouseDown }) => {
+  return (
+    <button
+      className={filter === name ? "active" : "inactive"}
+      onClick={clicked}
+    >
+      {name}
+    </button>
+  );
+};
 
-    return (
-        <button
-            className={filter === name ? "active" : "inactive"}
-            onClick={clicked}>
-            { name}
-        </button>
-    )
-}
-
-export default TodoButtonFocus
+export default TodoButtonFocus;
