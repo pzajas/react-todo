@@ -17,17 +17,14 @@ const TodoList = () => {
   const [search, setSearch] = useState(false);
 
   useEffect(() => {
-    if (filter === ALL) setFilteredTodos(allTodos);
+    if (filter === ALL)
+      setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)))
     else if (filter === ACTIVE)
-      setFilteredTodos(allTodos.filter((item) => !item.isComplete));
+      setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)))
     else if (filter === COMPLETED)
-      setFilteredTodos(allTodos.filter((item) => item.isComplete));
-  }, [allTodos, filter]);
+      setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)))
 
-  useEffect(() => {
-    const results = allTodos.filter((item) => item.text.includes(searchTerm));
-    setSearchResults(results);
-  }, [searchTerm, allTodos]);
+  }, [allTodos, filter, searchTerm])
 
   const handleAdd = (todo) => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
@@ -40,26 +37,29 @@ const TodoList = () => {
   const handleComplete = (todoId) => {
     let updatedTodos = allTodos.map((todo) =>
       todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo
-    );
 
+    );
     setAllTodos(updatedTodos);
   };
 
-  const handleDelete = (todoId) =>
-    setAllTodos(...allTodos.filter((item) => item.id !== todoId));
+  const handleDelete = (todoId) => {
+    setAllTodos(allTodos.filter((item) => item.id !== todoId));
+  }
+
 
   const handleFilterButtonClick = (filterType) => () => {
-    setFilter(filterType);
+
+    setFilter(filterType)
   };
 
   const handleButtonSearch = () => {
     setSearch(!search);
-    console.log(searchResults);
   };
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
 
   return (
     <div>
@@ -93,10 +93,12 @@ const TodoList = () => {
         handleDelete={handleDelete}
         search={search}
         searchResults={searchResults}
+        searchTerm={searchTerm}
         filter={filter}
         ALL={ALL}
         COMPLETED={COMPLETED}
         ACTIVE={ACTIVE}
+        filteredTodos={filteredTodos}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-const TodoButtonFocus = ({ filter, name, clicked }) => {
+const TodoButtonFocus = ({ filter, name, clicked, onMouseDown }) => {
   return (
     <button
       className={filter === name ? "active" : "inactive"}
