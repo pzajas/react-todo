@@ -12,6 +12,13 @@ code {
   text-decoration: line-through;
 }
 
+/* .active:focus {
+  color: white;
+  background-color: lightskyblue;
+} */
+.active,
+.active:hover,
+.active:active,
 .active:focus {
   color: white;
   background-color: lightskyblue;

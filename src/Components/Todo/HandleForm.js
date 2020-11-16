@@ -1,9 +1,9 @@
 import React from "react";
 import SearchForm from "./SearchForm";
-import TodoForm from "./TodoForm";
+import AddForm from "./AddForm";
 
-const HandleForm = ({ search, onSubmit, value, onChange, searchResults }) => {
-  if (search) {
+const HandleForm = ({ isActive, onSubmit, value, onChange, searchResults }) => {
+  if (isActive) {
     return (
       <SearchForm
         value={value}
@@ -11,7 +11,7 @@ const HandleForm = ({ search, onSubmit, value, onChange, searchResults }) => {
         searchResults={searchResults}
       />
     );
-  } else return <TodoForm onSubmit={onSubmit} />;
+  } else return <AddForm onSubmit={onSubmit} />;
 };
 
 export default HandleForm;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import SecondaryButton from '../Buttons/SecondaryButton'
 
-const TodoForm = (props) => {
+const AddForm = (props) => {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
@@ -29,9 +30,9 @@ const TodoForm = (props) => {
         value={input}
         onChange={handleChange}
       />
-      <input className="todo-input" type="submit" />
+      <SecondaryButton onClick={handleSubmit} />
     </form>
   );
 };
 
-export default TodoForm;
+export default AddForm;

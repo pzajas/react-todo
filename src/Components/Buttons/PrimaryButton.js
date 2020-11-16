@@ -1,6 +1,6 @@
 import React from "react";
 
-const TodoButtonFocus = ({ filter, name, clicked, onMouseDown }) => {
+const PrimaryButton = ({ filter, name, clicked }) => {
   return (
     <button
       className={filter === name ? "active" : "inactive"}
@@ -11,4 +11,4 @@ const TodoButtonFocus = ({ filter, name, clicked, onMouseDown }) => {
   );
 };
 
-export default TodoButtonFocus;
+export default PrimaryButton;
