@@ -1,12 +1,12 @@
 import React from "react";
 
-const PrimaryButton = ({ filter, name, clicked }) => {
+const PrimaryButton = ({ onClick, ...props }) => {
   return (
     <button
-      className={filter === name ? "active" : "inactive"}
-      onClick={clicked}
+      onClick={onClick}
+      className="active"
     >
-      {name}
+      {props.children}
     </button>
   );
 };

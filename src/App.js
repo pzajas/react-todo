@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import List from "./Components/Todo/List";
 import ToggleButton from './Components/Buttons/ToggleButton'
-import HandleForm from "./Components/Todo/HandleForm";
 import FilterForm from "./Components/Todo/FilterForm";
+import AddForm from "./Components/Todo/AddForm";
+import SearchForm from "./Components/Todo/SearchForm";
+import { COMPLETED, ACTIVE, ALL } from './Components/Todo/Const'
 
 const App = () => {
-  const ACTIVE = "active";
-  const COMPLETED = "completed";
-  const ALL = "all";
 
   const [allTodos, setAllTodos] = useState([]);
 
@@ -58,9 +57,9 @@ const App = () => {
     setSearchTerm(e.target.value);
   }
 
-
   const handleButtonSearch = () => {
     setIsActive(!isActive);
+
   }
 
   return (
@@ -69,31 +68,30 @@ const App = () => {
       <ToggleButton
         onClick={handleButtonSearch}
         isActive={isActive}
-      />
-      <HandleForm
-        isActive={isActive}
-        onSubmit={handleAdd}
-        value={searchTerm}
-        onChange={handleChange}
-        searchResults={searchResults}
-      />
+      >{isActive ? "Search" : "Add Todo"}
+      </ToggleButton>
+      {isActive ?
+        <SearchForm
+          value={searchTerm}
+          onChange={handleChange}
+        />
+        :
+        <AddForm
+          onSubmit={handleAdd}
+        />}
       <FilterForm
-        ACTIVE={ACTIVE}
-        COMPLETED={COMPLETED}
-        ALL={ALL}
-
-        filter={filter}
-        handleFilterButtonClick={handleFilterButtonClick}
+        value={filter}
+        onClick={handleFilterButtonClick}
       />
       <List
-        todos={filteredTodos}
-        handleComplete={handleComplete}
-        handleDelete={handleDelete} />
+        items={filteredTodos}
+        itemOnClick={handleComplete}
+        itemOnRemove={handleDelete} />
     </div>
-
-
-
   )
 };
 
 export default App;
+
+
+

@@ -1,15 +1,23 @@
 import React from "react";
+import PrimaryButton from "./PrimaryButton";
+import SecondaryButton from "./SecondaryButton";
 
-const ToggleButton = ({ isActive, onClick }) => {
-  const nameChanger = isActive === false ? "Add Todo" : "Search";
+const ToggleButton = ({ isActive, onClick, ...props }) => {
 
   return (
-    <button
-      className={nameChanger}
-      onClick={onClick}>
-      {nameChanger}
-    </button>
-  );
-};
+    (isActive ?
+      <PrimaryButton
+        onClick={onClick}
+      > {props.children}
+      </PrimaryButton>
+      :
+      <SecondaryButton
+        onClick={onClick}
+      > {props.children}
+      </SecondaryButton>
+    ))
+
+}
+
 
 export default ToggleButton;

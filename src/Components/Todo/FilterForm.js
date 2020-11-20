@@ -1,27 +1,35 @@
 import React from 'react'
-import PrimaryButton from '../Buttons/PrimaryButton'
+import ToggleButton from '../Buttons/ToggleButton'
+import { COMPLETED, ACTIVE, ALL } from './Const'
 
 
-const FilterForm = ({ ACTIVE, COMPLETED, ALL, filter, handleFilterButtonClick }) => {
+const FilterForm = ({ value, onClick }) => {
+
+
     return (
         <div>
-            <PrimaryButton
-                name="active"
-                filter={filter}
-                clicked={handleFilterButtonClick(ACTIVE)}
-            />
-            <PrimaryButton
-                name="completed"
-                filter={filter}
-                clicked={handleFilterButtonClick(COMPLETED)}
-            />
-            <PrimaryButton
-                name="all"
-                filter={filter}
-                clicked={handleFilterButtonClick(ALL)}
-            />
+            <ToggleButton
+                isActive={value === ACTIVE}
+                onClick={onClick(ACTIVE)}
+            >
+                Active
+            </ToggleButton>
+            <ToggleButton
+                isActive={value === COMPLETED}
+                onClick={onClick(COMPLETED)}
+            >
+                Completed
+            </ToggleButton>
+            <ToggleButton
+                isActive={value === ALL}
+                onClick={onClick(ALL)}
+            >
+                All
+            </ToggleButton>
         </div>
     )
 }
 
 export default FilterForm
+
+

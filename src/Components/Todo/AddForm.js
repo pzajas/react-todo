@@ -30,7 +30,10 @@ const AddForm = (props) => {
         value={input}
         onChange={handleChange}
       />
-      <SecondaryButton onClick={handleSubmit} />
+      <SecondaryButton
+        onClick={handleSubmit}>
+        Submit
+      </SecondaryButton>
     </form>
   );
 };
