@@ -1,8 +1,5 @@
-const ACTIVE = "active";
-const ALL = "all";
-const COMPLETED = "completed"
-
-export { ALL, ACTIVE, COMPLETED }
-
+export const ACTIVE = "active";
+export const ALL = "all";
+export const COMPLETED = "completed"
 
 

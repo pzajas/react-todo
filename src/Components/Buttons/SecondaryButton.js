@@ -1,10 +1,10 @@
 import React from 'react'
 
-const SecondaryButton = ({ onClick, ...props }) => {
+const SecondaryButton = ({ onClick, children }) => {
     return (
         <button
             onClick={onClick}
-        >{props.children}
+        >{children}
         </button>
     )
 }

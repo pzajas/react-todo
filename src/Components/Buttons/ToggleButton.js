@@ -2,18 +2,18 @@ import React from "react";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 
-const ToggleButton = ({ isActive, onClick, ...props }) => {
+const ToggleButton = ({ isActive, onClick, children }) => {
 
   return (
     (isActive ?
       <PrimaryButton
         onClick={onClick}
-      > {props.children}
+      > {children}
       </PrimaryButton>
       :
       <SecondaryButton
         onClick={onClick}
-      > {props.children}
+      > {children}
       </SecondaryButton>
     ))
 

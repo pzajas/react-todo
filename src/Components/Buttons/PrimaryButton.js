@@ -1,12 +1,12 @@
 import React from "react";
 
-const PrimaryButton = ({ onClick, ...props }) => {
+const PrimaryButton = ({ onClick, children }) => {
   return (
     <button
       onClick={onClick}
       className="active"
     >
-      {props.children}
+      {children}
     </button>
   );
 };

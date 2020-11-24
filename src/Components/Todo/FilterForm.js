@@ -1,28 +1,27 @@
 import React from 'react'
 import ToggleButton from '../Buttons/ToggleButton'
 import { COMPLETED, ACTIVE, ALL } from './Const'
+import { connect } from 'react-redux'
+import { setFilter } from "../../Store/Todo/actions";
 
-
-const FilterForm = ({ value, onClick }) => {
-
-
+const FilterForm = ({ filter, setFilter }) => {
     return (
         <div>
             <ToggleButton
-                isActive={value === ACTIVE}
-                onClick={onClick(ACTIVE)}
+                isActive={filter === ACTIVE}
+                onClick={setFilter(ACTIVE)}
             >
                 Active
             </ToggleButton>
             <ToggleButton
-                isActive={value === COMPLETED}
-                onClick={onClick(COMPLETED)}
+                isActive={filter === COMPLETED}
+                onClick={setFilter(COMPLETED)}
             >
                 Completed
             </ToggleButton>
             <ToggleButton
-                isActive={value === ALL}
-                onClick={onClick(ALL)}
+                isActive={filter === ALL}
+                onClick={setFilter(ALL)}
             >
                 All
             </ToggleButton>
@@ -30,6 +29,17 @@ const FilterForm = ({ value, onClick }) => {
     )
 }
 
-export default FilterForm
+const mapStateToProps = ({ todo }) => ({
+    filter: todo.filter
+
+});
+
+const mapDispatchToProps = {
+    // setFilterAction: setFilter,
+    setFilter
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterForm)
 
 
