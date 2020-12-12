@@ -1,53 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import List from "./Components/Todo/List";
-import ToggleButton from "./Components/Buttons/ToggleButton";
-import FilterForm from "./Components/Todo/FilterForm";
-import AddForm from "./Components/Todo/AddForm";
-import SearchForm from "./Components/Todo/SearchForm";
-import { COMPLETED, ACTIVE, ALL } from "./Components/Todo/Const";
-import { setFilter } from "./Store/Todo/actions";
+import React, { useState, useEffect } from "react"
+import { connect } from "react-redux"
 
-const App = ({ filter, setFilter }) => {
-  const [allTodos, setAllTodos] = useState([]);
+import List from "./Components/Todo/List"
+import ToggleButton from "./Components/Buttons/ToggleButton"
+import FilterForm from "./Components/Todo/FilterForm"
+import AddForm from "./Components/Todo/AddForm"
+import SearchForm from "./Components/Todo/SearchForm"
+import { COMPLETED, ACTIVE, ALL } from "./Components/Todo/Const"
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+import { setFilter, setFilteredTodos, setAllTodos, setSearchTerm, addTodo, handleDelete, handleComplete } from "./Store/Todo/actions"
 
-  const [filteredTodos, setFilteredTodos] = useState([]);
+const App = ({ filter, searchTerm, allTodos }) => {
 
-  const [isActive, setIsActive] = useState(false);
+  //const [filteredTodos,] = useState([])
+
+  const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    if (filter === ALL) setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)));
-    else if (filter === ACTIVE) setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)));
-    else if (filter === COMPLETED) setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)));
-  }, [allTodos, filter, searchTerm]);
+    if (filter === ALL) setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)))
+    else if (filter === ACTIVE) setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)))
+    else if (filter === COMPLETED) setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)))
+  }, [allTodos, filter, searchTerm])
 
-  const handleComplete = todoId => {
-    let updatedTodos = allTodos.map((todo) => (todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo));
-    setAllTodos(updatedTodos);
-  };
+  // const handleComplete = todoId => {
+  //   let updatedTodos = allTodos.map((todo) => (todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo))
+  //   setAllTodos(updatedTodos)
 
-  const handleDelete = todoId => {
-    setAllTodos(allTodos.filter((item) => item.id !== todoId));
-  };
+  // };
 
-  const handleFilterButtonClick = filterType => () => {
-    setFilter(filterType)
-  };
+  // const handleDelete = todoId => {
+  //   setAllTodos(allTodos.filter((item) => item.id !== todoId))
+  // };
 
-  const handleAdd = todo => {
-    if (!todo.text || /^\s*$/.test(todo.text)) {
-      return;
-    }
-
-    setAllTodos([todo, ...allTodos]);
-  };
-
-  const handleChange = e => {
-    setSearchTerm(e.target.value);
-  };
+  // const addTodo = todo => {
+  //   if (!todo.text || /^\s*$/.test(todo.text)) {
+  //     return;
+  //   }
+  //   setAllTodos([todo, ...allTodos])
+  // }
 
   const handleButtonSearch = () => {
     setIsActive(!isActive);
@@ -62,38 +52,31 @@ const App = ({ filter, setFilter }) => {
         {isActive ? "Search" : "Add Todo"}
       </ToggleButton>
       {isActive ?
-        <SearchForm
-          value={searchTerm}
-          onChange={handleChange} /> :
+        <SearchForm />
+        :
         <AddForm
-          onSubmit={handleAdd} />}
-
+        />}
       <FilterForm />
-      <List
-        items={filteredTodos}
-        itemOnClick={handleComplete}
-        itemOnRemove={handleDelete} />
+      <List />
     </div>
   );
 };
 
 const mapStateToProps = ({ todo }) => ({
   filter: todo.filter,
-  handleFilterButtonClick: todo.handleFilterButtonClick
+  searchTerm: todo.searchTerm,
+  allTodos: todo.allTodos,
+  filteredTodos: todo.filteredTodos
 });
 
 const mapDispatchToProps = {
-  // setFilterAction: setFilter,
-  setFilter
+  setFilter,
+  setFilteredTodos,
+  setSearchTerm,
+  setAllTodos,
+  addTodo,
+  handleDelete,
+  handleComplete
 }
 
-// \/ tutaj sie podpina :D
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-
-// 1. podpiac FilterForm do storu
-// 2. zainstalowac eslinta
-// nie chce srednuikow na koncu
-// nie chce nawiasow na pojedynczych propsach
-// 3. zainstalowac pretteier
-// 2 spacjowe wciecia
-

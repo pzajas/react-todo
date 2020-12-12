@@ -1,19 +1,26 @@
-import React from "react";
+import React from "react"
+import { connect } from 'react-redux'
+import { setSearchTerm } from '../../Store/Todo/actions'
 
-const SearchForm = ({ value, onChange }) => {
+
+const SearchForm = ({ searchTerm, setSearchTerm }) => {
   return (
     <form className="search-form">
       <input
-        className="search-input"
-        type="text"
-        name="text"
-        placeholder="search"
-        autoComplete="off"
-        value={value}
-        onChange={onChange}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
     </form>
   );
 };
 
-export default SearchForm;
+const mapStateToProps = ({ todo }) => ({
+  searchTerm: todo.searchTerm
+
+});
+
+const mapDispatchToProps = {
+  setSearchTerm
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm)

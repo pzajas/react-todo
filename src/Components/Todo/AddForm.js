@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import { connect } from "react-redux"
+import { setInput } from '../../Store/Todo/actions'
+import { addTodo } from '../../Store/Todo/actions'
 import SecondaryButton from '../Buttons/SecondaryButton'
 
-const AddForm = (props) => {
-  const [input, setInput] = useState("");
+const AddForm = ({ input, setInput, addTodo }) => {
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    props.onSubmit({
-      id: Date.now(),
-      text: input,
-      isComplete: false,
-    });
+    addTodo(
+      input
+    );
     setInput("");
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setInput(e.target.value);
   };
 
@@ -38,4 +38,13 @@ const AddForm = (props) => {
   );
 };
 
-export default AddForm;
+const mapStateToProps = ({ todo }) => ({
+  input: todo.input
+});
+
+const mapDispatchToProps = {
+  setInput,
+  addTodo
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddForm)

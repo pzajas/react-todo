@@ -1,25 +1,26 @@
 import React from "react";
+import { connect } from 'react-redux'
+import { handleDelete, handleComplete, setFilteredTodos } from '../../Store/Todo/actions'
 import { RiCloseCircleLine } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 
-const Todo = ({
-  items,
-  itemOnClick,
-  itemOnRemove,
-
+const List = ({
+  handleDelete,
+  handleComplete,
+  filteredTodos
 }) => {
 
-  return items.map((todo, index) => (
+  return filteredTodos.map((todo, index) => (
     <div
       className={todo.isComplete ? "todo-complete" : "todo-incomplete"}
       key={index}
     >
-      <div key={todo.id} onClick={() => itemOnClick(todo.id)}>
+      <div key={todo.id} onClick={() => handleComplete(todo.id)}>
         {todo.text}
       </div>
       <div className="icons">
         <RiCloseCircleLine
-          onClick={() => itemOnRemove(todo.id)}
+          onClick={() => handleDelete(todo.id)}
           className="delete-item"
         />
         <TiEdit />
@@ -28,14 +29,15 @@ const Todo = ({
   ));
 }
 
-export default Todo;
+const mapStateToProps = ({ todo }) => ({
+  filteredTodos: todo.allTodos,
 
+});
 
-// if (search) {
-//   return (
-//     <div className="App">
-//       {searchResults.map((item) => (
-//         <li>{[item.text]}</li>
-//       ))}
-//     </div>
-//   );
+const mapDispatchToProps = {
+  handleDelete,
+  handleComplete,
+  setFilteredTodos
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List)

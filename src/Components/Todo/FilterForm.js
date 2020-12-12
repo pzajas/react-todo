@@ -9,19 +9,19 @@ const FilterForm = ({ filter, setFilter }) => {
         <div>
             <ToggleButton
                 isActive={filter === ACTIVE}
-                onClick={setFilter(ACTIVE)}
+                onClick={() => setFilter(ACTIVE)}
             >
                 Active
             </ToggleButton>
             <ToggleButton
                 isActive={filter === COMPLETED}
-                onClick={setFilter(COMPLETED)}
+                onClick={() => setFilter(COMPLETED)}
             >
                 Completed
             </ToggleButton>
             <ToggleButton
                 isActive={filter === ALL}
-                onClick={setFilter(ALL)}
+                onClick={() => setFilter(ALL)}
             >
                 All
             </ToggleButton>

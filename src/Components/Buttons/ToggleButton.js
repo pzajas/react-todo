@@ -19,5 +19,4 @@ const ToggleButton = ({ isActive, onClick, children }) => {
 
 }
 
-
 export default ToggleButton;
