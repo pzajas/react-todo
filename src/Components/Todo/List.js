@@ -30,7 +30,7 @@ const List = ({
 }
 
 const mapStateToProps = ({ todo }) => ({
-  filteredTodos: todo.allTodos,
+  filteredTodos: todo.filteredTodos,
 
 });
 

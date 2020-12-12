@@ -16,11 +16,11 @@ const App = ({ filter, searchTerm, allTodos }) => {
 
   const [isActive, setIsActive] = useState(false)
 
-  useEffect(() => {
-    if (filter === ALL) setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)))
-    else if (filter === ACTIVE) setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)))
-    else if (filter === COMPLETED) setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)))
-  }, [allTodos, filter, searchTerm])
+  // useEffect(() => {
+  //   if (filter === ALL) setFilteredTodos(allTodos.filter((item) => item.text.includes(searchTerm)))
+  //   else if (filter === ACTIVE) setFilteredTodos(allTodos.filter((item) => !item.isComplete).filter((item) => item.text.includes(searchTerm)))
+  //   else if (filter === COMPLETED) setFilteredTodos(allTodos.filter((item) => item.isComplete).filter((item) => item.text.includes(searchTerm)))
+  // }, [allTodos, filter, searchTerm])
 
   // const handleComplete = todoId => {
   //   let updatedTodos = allTodos.map((todo) => (todo.id === todoId ? { ...todo, isComplete: !todo.isComplete } : todo))
